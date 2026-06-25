@@ -1,13 +1,5 @@
 # Cloudflare Pages Redirects
-# https://developers.cloudflare.com/pages/platform/redirects/
-
-# Home
-@ /index  /index.html  200
-
-# Shop pages
+# Clean URLs — /shop serves shop.html, etc.
 /shop   /shop.html  200
 /build  /build.html  200
 /cart   /cart.html  200
-
-# 404 fallback - if a page isn't found, show the home page
-# /*  /index.html  404
