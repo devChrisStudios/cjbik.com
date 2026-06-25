@@ -56,6 +56,1197 @@ body {
   flex-direction: column;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: color 0.2s;  /* Smooth color change on hover */
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--primary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cart-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--gray-600);
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.cart-btn:hover {
+  color: var(--primary);
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  background: var(--danger);
+  color: var(--white);
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-200);
+}
+
+.btn-secondary:hover {
+  background: var(--gray-200);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.btn-accent:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.btn-lg {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  /*
+    rgba(255, 255, 255, 0.8) is WHITE at 80% opacity.
+    rgba = Red Green Blue Alpha (alpha = transparency).
+    0.0 = fully transparent, 1.0 = fully opaque.
+    Using white at partial opacity creates a subtle, elegant look
+    that's easier to read than pure white against the gradient.
+  */
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.hero .btn {
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.category-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  /*
+    transition: all 0.3s
+    When ANY property changes, animate smoothly over 0.3 seconds.
+    This makes hover effects feel fluid instead of jarring.
+    0.3s (300ms) is the sweet spot for UI transitions.
+  */
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.category-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.category-card p {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
+}
+
+.products-section {
+  padding: 4rem 0;
+}
+
+.products-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.products-header .section-title {
+  margin-bottom: 0;
+}
+
+.product-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 0.5rem 1rem 0.5rem 2.5rem;  /* Extra left padding for icon */
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  width: 220px;
+  background: var(--white);
+  transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+  outline: none;  /* Remove browser default outline */
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-box::before {
+  content: '\1F50D';
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+}
+
+.filter-select {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  background: var(--white);
+  appearance: none;
+  /*
+    Custom dropdown arrow as a base64 inline SVG.
+    The URL is a data URI -- the image data is embedded directly
+    in the CSS instead of a separate file. This avoids an extra
+    HTTP request (faster loading).
+  */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;  /* clips image to rounded corners */
+  transition: all 0.3s;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);  /* Lift card on hover */
+}
+
+.product-card-image {
+  width: 100%;
+  height: 220px;
+  /*
+    object-fit: cover
+    Crops the image to fill the container while maintaining aspect
+    ratio. Like Python Pillow's thumbnail() with crop.
+    Without this, images would stretch or leave empty space.
+  */
+  object-fit: cover;
+  background: var(--gray-100);
+}
+
+.product-card-body {
+  padding: 1.25rem;
+}
+
+.product-card-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;  /* Make category ALL CAPS */
+  letter-spacing: 0.5px;     /* Space out letters for readability */
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.product-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 0.5rem;
+  /*
+    CLAMP TEXT TO 2 LINES
+    =====================
+    These vendor-prefixed properties clamp text at 2 lines with "...":
+
+    display: -webkit-box          – Use flexbox-like box model
+    -webkit-line-clamp: 2         – Max 2 lines
+    -webkit-box-orient: vertical  – Stack vertically
+    overflow: hidden              – Hide overflow
+
+    This prevents long product names from breaking the card layout.
+    It's like Python's textwrap.shorten(text, width=...).
+  */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.stars {
+  color: var(--accent);  /* Gold color for stars */
+  font-size: 0.875rem;
+}
+
+.rating-text {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+.product-card-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+.product-card .btn {
+  width: 100%;  /* Full-width button in card */
+}
+
+.product-detail {
+  padding: 3rem 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  margin-bottom: 2rem;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary);
+}
+
+.breadcrumb .separator {
+  color: var(--gray-300);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.detail-image {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  background: var(--gray-100);
+}
+
+.detail-category {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.detail-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 1.5rem;
+}
+
+.detail-description {
+  font-size: 1rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--gray-50);
+  font-size: 1.125rem;
+  color: var(--gray-700);
+  transition: background 0.2s;
+}
+
+.quantity-selector button:hover {
+  background: var(--gray-200);
+}
+
+.quantity-selector input {
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--gray-200);
+  border-right: 1px solid var(--gray-200);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  -moz-appearance: textfield;
+}
+
+.quantity-selector input::-webkit-inner-spin-button,
+.quantity-selector input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.detail-actions .btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+}
+
+.detail-actions .btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+}
+
+.stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.stock-badge.in-stock {
+  background: #d1fae5;  /* Light green */
+  color: #065f46;        /* Dark green text */
+}
+
+.stock-badge.out-of-stock {
+  background: #fee2e2;  /* Light red */
+  color: #991b1b;        /* Dark red text */
+}
+
+/*
+  ====================================================================
+  CART PAGE
+  ====================================================================
+  Uses a two-column layout: items list (left) + order summary (right).
+*/
+.cart-page {
+  padding: 3rem 0;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.cart-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.cart-empty h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cart-empty p {
+  color: var(--gray-500);
+  margin-bottom: 1.5rem;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;  /* Items auto, summary 360px */
+  gap: 2rem;
+  align-items: start;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item {
+  /*
+    GRID LAYOUT FOR CART ITEMS
+    Three columns: image (100px) | info (auto) | actions (auto)
+  */
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  align-items: center;
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--gray-100);
+}
+
+.cart-item-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.cart-item-info .item-price {
+  color: var(--gray-500);
+  font-size: 0.875rem;
+}
+
+.cart-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.cart-item-total {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  font-size: 0.8125rem;
+  transition: color 0.2s;
+}
+
+.cart-item-remove:hover {
+  color: var(--danger);
+}
+
+/*
+  CART SUMMARY SIDEBAR
+  ====================
+  Uses position: sticky to follow the user as they scroll.
+  top: 5rem leaves room for the fixed header (4rem + some gap).
+*/
+.cart-summary {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: sticky;
+  top: 5rem;
+}
+
+.cart-summary h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--gray-600);
+}
+
+/*
+  .summary-row.total overrides the parent .summary-row styles.
+  Since .total comes AFTER .summary-row in the HTML class list,
+  and has the same specificity, it wins via CASCADE ORDER.
+*/
+.summary-row.total {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  border-top: 1px solid var(--gray-200);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+
+.cart-summary .btn {
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+
+/*
+  ====================================================================
+  CHECKOUT PAGE
+  ====================================================================
+  Same two-column layout as cart, with the form on the left.
+*/
+.checkout-page {
+  padding: 3rem 0;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.checkout-form {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+
+.checkout-form h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+.form-section h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two equal columns */
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;  /* Span FULL WIDTH across all grid columns */
+}
+
+.form-group label {
+  display: block;  /* Labels on their own line (above input) */
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.375rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  transition: border-color 0.2s;
+  background: var(--white);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input.error {
+  border-color: var(--danger);  /* Red border for validation errors */
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--danger);
+  margin-top: 0.25rem;
+  display: none;  /* Hidden by default, shown via JS (.error class) */
+}
+
+.form-group.error .form-error {
+  display: block;  /* Show error when parent has .error class */
+}
+
+/*
+  CHECKOUT SUMMARY SIDEBAR
+  Reuses .cart-summary styling, positioned sticky.
+*/
+.checkout-summary .cart-summary {
+  position: sticky;
+  top: 5rem;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--gray-100);  /* Light separator */
+}
+
+.checkout-item:last-child {
+  border-bottom: none;  /* No border on last item */
+}
+
+.checkout-item-name {
+  font-size: 0.875rem;
+  color: var(--gray-700);
+}
+
+.checkout-item-name span {
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+}
+
+.checkout-item-price {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/*
+  ORDER CONFIRMATION (shown after successful checkout)
+  Centered text with a large checkmark icon.
+*/
+.order-confirmation {
+  text-align: center;
+  padding: 4rem 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.confirmation-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.order-confirmation h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.order-confirmation p {
+  color: var(--gray-600);
+  margin-bottom: 0.5rem;
+}
+
+.order-number {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 1rem 0 2rem;
+}
+
+
+/*
+  ====================================================================
+  FOOTER
+  ====================================================================
+  Dark background with a multi-column layout.
+  margin-top: auto pushes the footer to the bottom when using
+  flexbox on the body (sticky footer technique).
+*/
+.footer {
+  background: var(--gray-900);
+  color: var(--gray-400);
+  padding: 3rem 0 1.5rem;
+  margin-top: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;  /* Brand gets 2x width */
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand h3 {
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.footer-brand p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.footer-col h4 {
+  color: var(--white);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer-col a {
+  display: block;  /* Each link on its own line */
+  font-size: 0.8125rem;
+  color: var(--gray-400);
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: var(--white);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--gray-800);
+  padding-top: 1.5rem;
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+
+/*
+  ====================================================================
+  TOAST NOTIFICATION
+  ====================================================================
+  A popup that appears at the bottom-right of the screen.
+  Uses CSS transitions to slide up and fade in.
+
+  position: fixed positions it relative to the VIEWPORT (browser
+  window), not the page. So it stays in place even when scrolling.
+
+  transform: translateY(100px) pushes it BELOW its normal position.
+  When .show is added, transform: translateY(0) moves it back.
+  Combined with opacity: 0 → 1, this creates a "slide up + fade in"
+  animation.
+*/
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--gray-900);
+  color: var(--white);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 200;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast.success {
+  background: var(--success);  /* Green for success */
+}
+
+.toast.error {
+  background: var(--danger);   /* Red for errors */
+}
+
+
+/*
+  LOADING STATE
+  Shown while JavaScript fetches data.
+*/
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--gray-400);
+}
+
+
+/*
+  ====================================================================
+  RESPONSIVE DESIGN (MEDIA QUERIES)
+  ====================================================================
+  Media queries apply CSS ONLY when certain CONDITIONS are met.
+  They're like Python's conditional statements but for layout.
+
+  SYNTAX:
+  @media (condition) {
+    /* CSS rules here apply only when condition is true */
+  }
+
+  The condition (max-width: 1024px) means: "apply when the viewport
+  is AT MOST 1024 pixels wide" (i.e., tablet or smaller).
+
+  DESIGN PRINCIPLE: MOBILE-FIRST vs DESKTOP-FIRST
+  ===============================================
+  - MOBILE-FIRST: Start with mobile styles, add @media (min-width)
+    for larger screens (recommended by Google)
+  - DESKTOP-FIRST: Start with desktop styles, add @media (max-width)
+    for smaller screens (what we did here -- simpler for learning)
+
+  Either approach works; consistency matters more.
+
+  BREAKPOINTS (common screen sizes):
+  - 480px: Small phones
+  - 768px: Tablets / large phones
+  - 1024px: Small laptops / landscape tablets
+  - 1200px: Desktop
+*/
+
+/*
+  TABLET (≤1024px)
+  ================
+  Mostly collapses two-column layouts to single column.
+*/
+@media (max-width: 1024px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cart-layout,
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;  /* 2 columns instead of 4 */
+  }
+}
+
+/*
+  PHONE (≤768px)
+  ==============
+  More aggressive adjustments for smaller screens.
+  Decrease font sizes, stack elements vertically.
+*/
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;  /* Smaller heading on phone */
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .product-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+  }
+
+  /* Move cart item actions to a new row */
+  .cart-item-actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .products-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .detail-actions {
+    flex-direction: column;
+  }
+
+  .detail-actions .btn {
+    width: 100%;
+  }
+}
+
+/*
+  SMALL PHONE (≤480px)
+  ====================
+  Single-column product grid, tighter header.
+*/
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;  /* One card per row */
+  }
+
+  .header-inner {
+    height: 3.5rem;  /* Shorter header on small phones */
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+}
+
+/*
+  ====================================================================
+  CSS SUMMARY
+  ====================================================================
+  Core concepts covered:
+  1.  CSS Variables (custom properties) for theming
+  2.  CSS Reset for cross-browser consistency
+  3.  Flexbox for 1D layouts (header, navigation, cards)
+  4.  CSS Grid for 2D layouts (product grid, cart, checkout)
+  5.  Responsive design with auto-fit/minmax (intrinsic layouts)
+  6.  Media queries for breakpoint-based layouts
+  7.  Pseudo-classes (:hover, :focus) for interactivity
+  8.  Pseudo-elements (::before, ::after) for decorative content
+  9.  Transitions for smooth animations
+  10. Position: sticky for persistent elements
+  11. Compound selectors for scoped styling
+  12. object-fit for image cropping
+  13. appearance: none for custom form styling
+  14. The cascade and specificity rules
+  ====================================================================
+*/
+
+
+
+
+
+
+
+
+
 
 
 
