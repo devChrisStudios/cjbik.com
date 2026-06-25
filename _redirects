@@ -2,7 +2,7 @@
 # https://developers.cloudflare.com/pages/platform/redirects/
 
 # Home
-/index  /index.html  200
+@ /index  /index.html  200
 
 # Shop pages
 /shop   /shop.html  200
@@ -10,4 +10,4 @@
 /cart   /cart.html  200
 
 # 404 fallback - if a page isn't found, show the home page
-/*  /index.html  404
+# /*  /index.html  404
