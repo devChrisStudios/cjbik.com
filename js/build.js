@@ -11,25 +11,10 @@
 // ============================================================
 // STICKER CATALOG
 // ============================================================
-// Edit this array to add, remove, or modify available stickers.
+// Loaded from the API so admin can manage them.
 // Each entry: { id, name, color, image, category }
 
-const STICKERS = [
-    { id: 'blue-white',   name: 'Blue',   color: 'White', image: 'images/Blue_Sticker.png',   category: 'color' },
-    { id: 'blue-black',   name: 'Blue',   color: 'Black', image: 'images/Blue_Sticker.png',   category: 'color' },
-    { id: 'red-white',    name: 'Red',    color: 'White', image: 'images/Red_Sticker.png',    category: 'color' },
-    { id: 'red-black',    name: 'Red',    color: 'Black', image: 'images/Red_Sticker.png',    category: 'color' },
-    { id: 'green-white',  name: 'Green',  color: 'White', image: 'images/Green_Sticker.png',  category: 'color' },
-    { id: 'green-black',  name: 'Green',  color: 'Black', image: 'images/Green_Sticker.png',  category: 'color' },
-    { id: 'purple-white', name: 'Purple', color: 'White', image: 'images/Purple_Sticker.png', category: 'color' },
-    { id: 'purple-black', name: 'Purple', color: 'Black', image: 'images/Purple_Sticker.png', category: 'color' },
-    { id: 'orange-white', name: 'Orange', color: 'White', image: 'images/Orange_Sticker.png', category: 'color' },
-    { id: 'orange-black', name: 'Orange', color: 'Black', image: 'images/Orange_Sticker.png', category: 'color' },
-    { id: 'pink-white',   name: 'Pink',   color: 'White', image: 'images/Pink_Sticker.png',   category: 'color' },
-    { id: 'pink-black',   name: 'Pink',   color: 'Black', image: 'images/Pink_Sticker.png',   category: 'color' },
-    { id: 'black-white',  name: 'Black',  color: 'White',  image: 'images/Black_Sticker.png',  category: 'color' },
-    { id: 'grey-white',   name: 'Grey',   color: 'White',  image: 'images/Grey_Sticker.png',   category: 'color' },
-];
+let STICKERS = [];
 
 const MAX_PACK_SIZE = 12;
 const PACK_PRICE = 11.99;
@@ -50,10 +35,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const page = document.body.dataset.page;
     if (page !== 'builder') return;
     
-    const grid = document.querySelector('.sticker-grid');
+    fetchStickers();
     
+});
+
+function fetchStickers() {
+    var grid = document.querySelector('.sticker-grid');
     if (!grid) return;
     
+    fetch('/api/stickers')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            STICKERS = Array.isArray(data) ? data : (data.stickers || []);
+            renderStickerGrid(grid);
+            bindBuilder();
+            updateBuilderUI();
+        })
+        .catch(function() {
+            grid.innerHTML = '<p style="text-align:center;color:#666;grid-column:1/-1">Failed to load stickers.</p>';
+        });
+}
+
+function renderStickerGrid(grid) {
+    grid.innerHTML = '';
     STICKERS.forEach(function(sticker) {
         const option = document.createElement('div');
         option.className = 'sticker-option';
@@ -68,14 +72,15 @@ document.addEventListener('DOMContentLoaded', function() {
             '<div class="sticker-color">' + sticker.color + '</div>'
         ].join('');
         
-        // Click to add one of this sticker
         option.addEventListener('click', function() {
             addSticker(sticker.id);
         });
         
         grid.appendChild(option);
     });
-    
+}
+
+function bindBuilder() {
     const addToCartBtn = document.querySelector('.btn-add-custom-pack');
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', function() {
@@ -104,10 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateBuilderUI();
         });
     }
-    
-    updateBuilderUI();
-    
-});
+}
 
 
 

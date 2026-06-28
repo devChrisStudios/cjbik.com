@@ -196,6 +196,7 @@ function renderPage(catalog, message) {
     '<div class="nav-links">' +
     '<a href="/admin">Orders</a>' +
     '<a href="/admin/products" class="active">Products</a>' +
+    '<a href="/admin/stickers">Stickers</a>' +
     '</div>' +
     '<a href="/admin/logout" style="margin-left:auto">Sign Out</a>' +
     '</div>' +

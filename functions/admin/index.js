@@ -139,6 +139,7 @@ function renderDashboard(orders) {
     '<div class="nav-links">' +
     '<a href="/admin" class="active">Orders</a>' +
     '<a href="/admin/products">Products</a>' +
+    '<a href="/admin/stickers">Stickers</a>' +
     '</div>' +
     '<a href="/admin/logout" style="margin-left:auto">Sign Out</a>' +
     '</div>' +
