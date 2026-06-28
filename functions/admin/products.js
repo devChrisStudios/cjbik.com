@@ -120,10 +120,8 @@ function renderPage(catalog, message) {
         if (imgSrc) {
             if (imgSrc.indexOf('://') === -1 && !imgSrc.startsWith('/')) imgSrc = '/' + imgSrc;
             imgHtml = '<img src="' + escapeHtml(imgSrc) + '" style="width:50px;height:50px;object-fit:contain;border-radius:4px;background:#1e1e1e;vertical-align:middle">';
-        } else if (p.type === 'custom-decal') {
-            imgHtml = '<span style="font-size:2rem;display:flex;align-items:center;justify-content:center;width:50px;height:50px">\uD83C\uDFA8</span>';
         } else {
-            imgHtml = '\u2014';
+            imgHtml = '<div style="width:50px;height:50px;border-radius:4px;background:#1e1e1e"></div>';
         }
         return '<tr>' +
             '<td>' + imgHtml + '</td>' +
