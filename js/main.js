@@ -242,30 +242,20 @@ const COLOR_HEX = {
 
 
 // ============================================================
-// PLACEHOLDER IMAGE
-// ============================================================
-
-const PLACEHOLDER_IMG = 'images/placeholder.svg';
-
-
-// ============================================================
 // PRODUCT RENDERERS
 // ============================================================
 
-function imgOrDefault(src, name) {
-    return src && src.indexOf('://') === -1 && src.indexOf('/') !== -1 ? src : PLACEHOLDER_IMG;
-}
-
 function renderPackCard(p) {
-    const img = imgOrDefault(p.image, p.name);
     const features = (p.features || []).map(function(f) {
         return '<li>' + f + '</li>';
     }).join('');
-    return '<div class="card">' +
-        '<div class="card-image">' +
-        '  <img src="' + img + '" alt="' + p.name + '">' +
-        '</div>' +
-        '<div class="card-body">' +
+    var html = '<div class="card">';
+    if (p.image) {
+        html += '<div class="card-image">' +
+        '  <img src="' + p.image + '" alt="' + p.name + '">' +
+        '</div>';
+    }
+    html += '<div class="card-body">' +
         '  <h2 class="card-title">' + p.name + '</h2>' +
         '  <span class="color-badge ' + (p.badgeClass || 'color-badge-white') + '">' + (p.badge || '') + '</span>' +
         '  <p class="card-description">' + p.description + '</p>' +
@@ -277,26 +267,28 @@ function renderPackCard(p) {
         '          data-id="' + p.id + '"' +
         '          data-name="' + p.name + '"' +
         '          data-price="' + p.price + '"' +
-        '          data-image="' + img + '">' +
+        '          data-image="' + (p.image || '') + '">' +
         '    Add to Cart' +
         '  </button>' +
         '</div>' +
         '</div>';
+    return html;
 }
 
 function renderDecalCard(p) {
-    const img = imgOrDefault(p.baseImage, p.name);
     const colors = (p.colors || []).map(function(c) {
         const hex = COLOR_HEX[c] || '#888';
         const borderStyle = c === 'White' ? 'border-color:#ccc;' : '';
         const selected = c === 'White' ? ' selected' : '';
         return '<div class="color-option' + selected + '" data-color="' + c + '" style="background:' + hex + ';' + borderStyle + '" title="' + c + '" aria-label="' + c + '"></div>';
     }).join('');
-    return '<div class="card">' +
-        '<div class="card-image">' +
-        '  <img src="' + img + '" alt="' + p.name + '">' +
-        '</div>' +
-        '<div class="card-body">' +
+    var html = '<div class="card">';
+    if (p.baseImage) {
+        html += '<div class="card-image">' +
+        '  <img src="' + p.baseImage + '" alt="' + p.name + '">' +
+        '</div>';
+    }
+    html += '<div class="card-body">' +
         '  <h2 class="card-title">' + p.name + '</h2>' +
         '  <p class="card-description">' + p.description + '</p>' +
         '  <div class="card-price">' + formatPrice(p.price) + '</div>' +
@@ -308,11 +300,12 @@ function renderDecalCard(p) {
         '          data-base-id="' + p.id + '"' +
         '          data-name="' + p.name + '"' +
         '          data-price="' + p.price + '"' +
-        '          data-image="' + img + '">' +
+        '          data-image="' + (p.baseImage || '') + '">' +
         '    Add to Cart' +
         '  </button>' +
         '</div>' +
         '</div>';
+    return html;
 }
 
 function renderCustomDecalCard(p) {
@@ -647,10 +640,9 @@ function initCartPage() {
                           '</div>';
         }
         
-        const imgSrc = item.image || PLACEHOLDER_IMG;
-        const isPath = imgSrc.indexOf('/') !== -1 || imgSrc.indexOf('.') !== -1;
+        const hasImg = item.image && (item.image.indexOf('/') !== -1 || item.image.indexOf('.') !== -1);
         itemEl.innerHTML = [
-            '<div class="cart-item-image">' + (isPath ? '<img src="' + imgSrc + '" alt="' + item.name + '">' : '<span style="font-size:2rem;">' + imgSrc + '</span>') + '</div>',
+            (hasImg ? '<div class="cart-item-image"><img src="' + item.image + '" alt="' + item.name + '"></div>' : ''),
             '<div class="cart-item-info">',
             '  <h4>' + item.name + '</h4>',
             '  <div class="item-detail">' + formatPrice(item.price) + ' each</div>',
