@@ -202,10 +202,11 @@ function getCartTotal() {
     let total = 0;
     
     cart.forEach(function(item) {
-        // Multiply each item's price by how many of them we have
-        total += (item.price || 0) * (item.quantity || 1);
+        var price = parseFloat(item.price) || 0;
+        total += price * (item.quantity || 1);
     });
     
+    console.log('Cart total:', total);
     return total;
 }
 
@@ -493,6 +494,7 @@ function initCartPage() {
     }
     
     const cart = getCart();
+    console.log('Cart items:', JSON.stringify(cart, null, 2));
     
     // Show empty state or items
     if (cart.length === 0) {
