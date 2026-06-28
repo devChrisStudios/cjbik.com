@@ -273,14 +273,15 @@ document.addEventListener('DOMContentLoaded', function() {
         option.innerHTML = [
             '<div class="sticker-preview" style="background: ' + (sticker.color === 'White' ? '#1a1a1a' : '#e0e0e0') + '">',
             '  <span class="img-placeholder">' + sticker.image + '</span>',
+            '  <div class="sticker-count" style="display:none;">×0</div>',
             '</div>',
             '<div class="sticker-name">' + sticker.name + '</div>',
             '<div class="sticker-color">' + sticker.color + '</div>'
         ].join('');
         
-        // Click to toggle selection
+        // Click to add one of this sticker
         option.addEventListener('click', function() {
-            toggleSticker(sticker.id);
+            addSticker(sticker.id);
         });
         
         grid.appendChild(option);
@@ -335,32 +336,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /**
- * Toggle a sticker's selection state.
- * If it's selected, remove it. If not, add it (up to MAX_PACK_SIZE).
+ * Add a sticker to the pack (up to MAX_PACK_SIZE).
+ * Unlike the old toggle behavior, clicking always adds one.
+ * Remove stickers using the sidebar's remove buttons.
  * 
- * @param {string} stickerId - The ID of the sticker to toggle
+ * @param {string} stickerId - The ID of the sticker to add
  */
-function toggleSticker(stickerId) {
-    
-    // Check if this sticker is already in our selection
-    const index = selectedStickers.indexOf(stickerId);
-    
-    if (index !== -1) {
-        // Already selected - remove it
-        selectedStickers.splice(index, 1);
-    } else {
-        // Not selected yet - check if we have room
-        if (selectedStickers.length >= MAX_PACK_SIZE) {
-            // Pack is full! Show a warning instead of adding
-            showPackFullWarning();
-            return;
-        }
-        // Add to selection
-        selectedStickers.push(stickerId);
+function addSticker(stickerId) {
+    if (selectedStickers.length >= MAX_PACK_SIZE) {
+        showPackFullWarning();
+        return;
     }
-    
-    // Update the display to reflect changes
+    selectedStickers.push(stickerId);
     updateBuilderUI();
+}
+
+/**
+ * Remove one occurrence of a sticker from the pack.
+ * Used by sidebar remove buttons.
+ * 
+ * @param {string} stickerId - The ID of the sticker to remove
+ */
+function removeSticker(stickerId) {
+    const index = selectedStickers.indexOf(stickerId);
+    if (index !== -1) {
+        selectedStickers.splice(index, 1);
+        updateBuilderUI();
+    }
 }
 
 
@@ -375,14 +377,20 @@ function toggleSticker(stickerId) {
  */
 function updateBuilderUI() {
     
-    // --- Update sticker grid visuals ---
+    // --- Update sticker grid visuals with count badges ---
     const allOptions = document.querySelectorAll('.sticker-option');
     allOptions.forEach(function(option) {
         const id = option.dataset.id;
-        if (selectedStickers.includes(id)) {
+        const count = selectedStickers.filter(function(sid) { return sid === id; }).length;
+        const countBadge = option.querySelector('.sticker-count');
+        
+        if (count > 0) {
             option.classList.add('selected');
+            countBadge.style.display = 'flex';
+            countBadge.textContent = '×' + count;
         } else {
             option.classList.remove('selected');
+            countBadge.style.display = 'none';
         }
     });
     
@@ -427,7 +435,7 @@ function updateBuilderUI() {
                 // Remove button inside the list
                 item.querySelector('.remove-btn').addEventListener('click', function(e) {
                     e.stopPropagation();
-                    toggleSticker(sticker.id);
+                    removeSticker(sticker.id);
                 });
                 
                 selectedList.appendChild(item);
@@ -468,7 +476,7 @@ function showPackFullWarning() {
     
     const warning = document.createElement('div');
     warning.className = 'pack-full-warning';
-    warning.textContent = '⚠️ Your pack is full! You can only select 12 stickers. Remove one to add another.';
+    warning.textContent = '⚠️ Your pack is full! You can only pick 12 stickers. Remove one from the sidebar to add another.';
     warning.style.cssText = [
         'background: rgba(217, 4, 41, 0.15)',
         'border: 1px solid var(--color-red-primary)',

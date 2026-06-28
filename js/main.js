@@ -317,18 +317,65 @@ function initShopPage() {
     // Find all "Add to Cart" buttons on the page
     const addButtons = document.querySelectorAll('.btn-add-cart');
     
+    // Set up file upload for custom decal inputs
+    document.querySelectorAll('.custom-file-input').forEach(function(input) {
+        const card = input.closest('.card');
+        const statusEl = card.querySelector('.custom-url-status');
+        const previewEl = card.querySelector('.custom-file-preview');
+        const addBtn = card.querySelector('.btn-add-cart');
+        
+        input.addEventListener('change', function() {
+            const file = input.files[0];
+            if (!file) return;
+            
+            // Show local preview before uploading
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewEl.src = e.target.result;
+                previewEl.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to server
+            addBtn.dataset.uploading = 'true';
+            addBtn.dataset.imageId = '';
+            statusEl.textContent = 'Uploading...';
+            statusEl.className = 'custom-url-status';
+            
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            fetch('/api/upload', { method: 'POST', body: formData })
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data.error) {
+                        statusEl.textContent = data.error;
+                        statusEl.className = 'custom-url-status error';
+                    } else {
+                        statusEl.textContent = 'Image uploaded!';
+                        statusEl.className = 'custom-url-status success';
+                        addBtn.dataset.imageId = data.imageId;
+                    }
+                })
+                .catch(function() {
+                    statusEl.textContent = 'Upload failed. Try again.';
+                    statusEl.className = 'custom-url-status error';
+                })
+                .finally(function() {
+                    addBtn.dataset.uploading = 'false';
+                });
+        });
+    });
+    
     addButtons.forEach(function(button) {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Get product info from data-* attributes on the button
-            // These are set in the HTML like: data-id="white-pack"
             const id = button.dataset.id;
             const name = button.dataset.name;
             const price = parseFloat(button.dataset.price) || 0;
             const image = button.dataset.image || '📦';
             
-            // Build the item object and add to cart
             const item = {
                 id: id,
                 name: name,
@@ -337,23 +384,64 @@ function initShopPage() {
                 type: 'premade'
             };
             
-            // If this is a custom decal button, grab the design URL from the input
             if (button.dataset.custom === 'true') {
-                const input = button.closest('.card').querySelector('.custom-url-input');
                 const statusEl = button.closest('.card').querySelector('.custom-url-status');
-                const url = input ? input.value.trim() : '';
+                const imageId = button.dataset.imageId;
+                const uploading = button.dataset.uploading === 'true';
                 
-                if (!url) {
-                    statusEl.textContent = 'Please paste your design URL first.';
+                if (uploading) {
+                    statusEl.textContent = 'Please wait, image is still uploading...';
+                    statusEl.className = 'custom-url-status error';
+                    return;
+                }
+                
+                if (!imageId) {
+                    statusEl.textContent = 'Please upload your design image first.';
                     statusEl.className = 'custom-url-status error';
                     return;
                 }
                 
                 item.type = 'custom';
-                item.designUrl = url;
-                statusEl.textContent = '✓ Design URL saved!';
-                statusEl.className = 'custom-url-status success';
+                item.id = 'custom-decal-' + Date.now();
+                item.imageId = imageId;
             }
+            
+            addToCart(item);
+        });
+    });
+    
+    // --- Standard decal color pickers ---
+    document.querySelectorAll('.color-selector').forEach(function(selector) {
+        const options = selector.querySelectorAll('.color-option');
+        options.forEach(function(option) {
+            option.addEventListener('click', function() {
+                options.forEach(function(o) { o.classList.remove('selected'); });
+                option.classList.add('selected');
+            });
+        });
+    });
+    
+    // --- Standard decal "Add to Cart" handlers ---
+    document.querySelectorAll('.btn-add-decal').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const card = button.closest('.card');
+            const selectedColor = card.querySelector('.color-option.selected');
+            const color = selectedColor ? selectedColor.dataset.color : 'White';
+            const handleInput = card.querySelector('.decal-handle');
+            const handle = handleInput ? handleInput.value.trim() || '@cjbik' : '@cjbik';
+            const baseId = button.dataset.baseId;
+            
+            const item = {
+                id: baseId + '-' + color.toLowerCase(),
+                name: button.dataset.name + ' (' + color + ')',
+                price: parseFloat(button.dataset.price) || 0,
+                image: button.dataset.image || '📦',
+                type: 'decal',
+                color: color,
+                handle: handle
+            };
             
             addToCart(item);
         });
@@ -433,6 +521,12 @@ function initCartPage() {
             extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; word-break: break-all;">' +
                           'Design URL: <a href="' + item.designUrl + '" target="_blank" rel="noopener" style="color: var(--color-red-primary);">' +
                           item.designUrl + '</a></div>';
+        }
+        // For standard decals, show the handle
+        if (item.type === 'decal' && item.handle) {
+            extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; color: #666;">' +
+                          'Handle: ' + item.handle +
+                          '</div>';
         }
         
         itemEl.innerHTML = [

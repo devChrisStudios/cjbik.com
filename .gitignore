@@ -18,3 +18,6 @@ node_modules/
 # Image source files (keep only optimized web versions)
 images/*.psd
 images/*.ai
+
+# Local agent instructions (not for public repo)
+AGENTS.md

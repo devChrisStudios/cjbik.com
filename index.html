@@ -282,38 +282,156 @@
 
                 </div>
 
-                <!-- ======== CUSTOM DECAL (full-width, centered) ======== -->
-                <div class="custom-pack-row">
+                <!-- ======== STANDARD DECALS (2-column grid) ======== -->
+                <div style="margin-top: var(--space-xl);">
+                    <div class="section-header">
+                        <h2 class="section-title">Standard Decals</h2>
+                        <p class="subheading">Pre-made designs in your choice of color — sold individually</p>
+                    </div>
+
+                    <div class="decals-grid">
+
+                        <div class="card fade-in fade-in-delay-1">
+                            <div class="card-image">
+                                <img src="images/ODI_Standard.png" alt="ODI Plate Decal">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">ODI Plate Decal</h3>
+                                <p class="card-description">
+                                    Premium laminate decal for your ODI plate. Pick your color below.
+                                </p>
+                                <div class="card-price">
+                                    $15.99
+                                </div>
+                                <div class="color-selector" data-target="odi-standard">
+                                    <div class="color-option selected" data-color="White" style="background:#ffffff;border-color:#ccc;" title="White"></div>
+                                    <div class="color-option" data-color="Blue" style="background:#3498db;" title="Blue"></div>
+                                    <div class="color-option" data-color="Orange" style="background:#e67e22;" title="Orange"></div>
+                                    <div class="color-option" data-color="Red" style="background:#e74c3c;" title="Red"></div>
+                                    <div class="color-option" data-color="Purple" style="background:#9b59b6;" title="Purple"></div>
+                                    <div class="color-option" data-color="Yellow" style="background:#f1c40f;" title="Yellow"></div>
+                                    <div class="color-option" data-color="Pink" style="background:#e91e63;" title="Pink"></div>
+                                    <div class="color-option" data-color="Green" style="background:#2ecc71;" title="Green"></div>
+                                </div>
+                                <input type="text" class="decal-handle" placeholder="@yourhandle" value="@cjbik" maxlength="30">
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-add-decal"
+                                        data-base-id="odi-standard"
+                                        data-name="ODI Plate Decal"
+                                        data-price="15.99"
+                                        data-image="images/ODI_Standard.png">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card fade-in fade-in-delay-2">
+                            <div class="card-image">
+                                <div class="card-placeholder">
+                                    <span class="placeholder-icon">📷</span>
+                                    <span class="placeholder-text">INSERT IMAGE</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Motocutz Plate Decal</h3>
+                                <p class="card-description">
+                                    Premium laminate decal for your motocross plate. Pick your color below.
+                                </p>
+                                <div class="card-price">
+                                    $15.99
+                                </div>
+                                <div class="color-selector" data-target="motocutz-standard">
+                                    <div class="color-option selected" data-color="White" style="background:#ffffff;border-color:#ccc;" title="White"></div>
+                                    <div class="color-option" data-color="Blue" style="background:#3498db;" title="Blue"></div>
+                                    <div class="color-option" data-color="Orange" style="background:#e67e22;" title="Orange"></div>
+                                    <div class="color-option" data-color="Red" style="background:#e74c3c;" title="Red"></div>
+                                    <div class="color-option" data-color="Purple" style="background:#9b59b6;" title="Purple"></div>
+                                    <div class="color-option" data-color="Yellow" style="background:#f1c40f;" title="Yellow"></div>
+                                    <div class="color-option" data-color="Pink" style="background:#e91e63;" title="Pink"></div>
+                                    <div class="color-option" data-color="Green" style="background:#2ecc71;" title="Green"></div>
+                                </div>
+                                <input type="text" class="decal-handle" placeholder="@yourhandle" value="@cjbik" maxlength="30">
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-add-decal"
+                                        data-base-id="motocutz-standard"
+                                        data-name="Motocutz Plate Decal"
+                                        data-price="15.99"
+                                        data-image="📷">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ======== CUSTOM DECALS (2-column grid) ======== -->
+                <div class="custom-decals-grid">
 
                     <div class="card fade-in fade-in-delay-1">
                         <div class="card-body">
-                            <h3 class="card-title">Custom Decal</h3>
-                            <span class="color-badge color-badge-white">Custom</span>
+                            <h3 class="card-title">Surron ODI Plate Decal</h3>
+                            <span class="color-badge color-badge-white">Surron</span>
                             <p class="card-description">
-                                Design your own sticker on Motocutz, then paste the link here.
+                                Design your ODI plate decal on Motocutz, then upload your artwork here.
                             </p>
-
                             <div class="card-price">
                                 $15.99
                             </div>
-
-                            <!-- URL input group -->
-                            <div class="custom-url-group">
-                                <input type="url" class="custom-url-input"
-                                       placeholder="Paste your design URL here..."
-                                       autocomplete="off">
-                                <a href="https://motocutzmx.com/products/custom-og-motocutz-number-plate-decal"
-                                   target="_blank" rel="noopener"
-                                   class="btn btn-outline btn-sm btn-design-link">
-                                    Design Custom Art →
-                                </a>
+                            <div class="custom-upload-group">
+                                <div class="custom-upload-top-row">
+                                    <a href="https://motocutzmx.com/products/surron-number-plate-decal-custom"
+                                       target="_blank" rel="noopener"
+                                       class="btn btn-outline btn-sm btn-design-link">
+                                        Design on Motocutz →
+                                    </a>
+                                    <input type="file" class="custom-file-input" accept="image/png,image/jpeg,image/webp">
+                                </div>
+                                <img class="custom-file-preview" style="display:none; border-radius:4px;">
+                                <div class="custom-url-status"></div>
                             </div>
-                            <div class="custom-url-status"></div>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-primary btn-add-cart btn-custom-cart"
-                                    data-id="custom-decal"
-                                    data-name="Custom Decal"
+                                    data-id="custom-decal-surron"
+                                    data-name="Surron ODI Plate Decal"
+                                    data-price="15.99"
+                                    data-image="🎨"
+                                    data-custom="true">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in fade-in-delay-2">
+                        <div class="card-body">
+                            <h3 class="card-title">Motocutz Plate Decal</h3>
+                            <span class="color-badge color-badge-white">Motocutz</span>
+                            <p class="card-description">
+                                Design your custom motocross plate decal on Motocutz, then upload your artwork here.
+                            </p>
+                            <div class="card-price">
+                                $15.99
+                            </div>
+                            <div class="custom-upload-group">
+                                <div class="custom-upload-top-row">
+                                    <a href="https://motocutzmx.com/products/custom-og-motocutz-number-plate-decal"
+                                       target="_blank" rel="noopener"
+                                       class="btn btn-outline btn-sm btn-design-link">
+                                        Design on Motocutz →
+                                    </a>
+                                    <input type="file" class="custom-file-input" accept="image/png,image/jpeg,image/webp">
+                                </div>
+                                <img class="custom-file-preview" style="display:none; border-radius:4px;">
+                                <div class="custom-url-status"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-add-cart btn-custom-cart"
+                                    data-id="custom-decal-motocutz"
+                                    data-name="Motocutz Plate Decal"
                                     data-price="15.99"
                                     data-image="🎨"
                                     data-custom="true">
@@ -362,11 +480,9 @@
                         Spot another BIKFAM sticker in the wild? That's your people.
                     </p>
                     <p>
-                        <a href="#" target="_blank" style="font-family: var(--font-heading); text-transform: uppercase; font-size: 1.2rem;">
+                        <a href="https://www.youtube.com/@CJSBIK" target="_blank" style="font-family: var(--font-heading); text-transform: uppercase; font-size: 1.2rem;">
                             Subscribe to CJBIK on YouTube →
                         </a>
-                        <!-- ^^^ Replace the href="#" with the actual YouTube channel URL:
-                             href="https://youtube.com/@cjbik" -->
                     </p>
                     
                 </div>

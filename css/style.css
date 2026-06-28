@@ -696,30 +696,108 @@ p {
     margin: 0 auto;
 }
 
-/* Full-width row for the Custom Decal card (below the 3 packs) */
-.custom-pack-row {
-    max-width: 700px;
+/* 2-column grid for custom decal cards */
+.custom-decals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    max-width: 900px;
     margin: var(--space-xl) auto 0;
 }
 
-.custom-pack-row .card {
+.custom-decals-grid .card {
     text-align: center;
 }
 
-.custom-pack-row .card-body {
+.custom-decals-grid .card-body {
     padding-bottom: var(--space-sm);
 }
 
-/* URL input group for the custom decal design link */
-.custom-url-group {
+/* 2-column grid for standard pre-made decals */
+.decals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    max-width: 900px;
+    margin: var(--space-xl) auto 0;
+}
+
+.decals-grid .card {
+    text-align: center;
+}
+
+.decals-grid .card-body {
+    padding-bottom: var(--space-sm);
+}
+
+/* Color selector — row of circles */
+.color-selector {
     display: flex;
-    gap: var(--space-sm);
-    align-items: center;
-    max-width: 550px;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: var(--space-md) 0;
+}
+
+.color-option {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.color-option:hover {
+    transform: scale(1.15);
+}
+
+.color-option.selected {
+    border-color: var(--color-red-primary) !important;
+    box-shadow: 0 0 8px var(--color-red-glow);
+}
+
+/* Handle input for standard decals */
+.decal-handle {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: var(--space-sm) auto 0;
+    background: var(--color-bg);
+    border: 1px solid #333;
+    color: var(--color-text);
+    padding: 6px 10px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    border-radius: var(--border-radius);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+
+.decal-handle:focus {
+    border-color: var(--color-red-primary);
+}
+
+.decal-handle::placeholder {
+    color: #555;
+}
+
+/* Upload group for each custom decal */
+.custom-upload-group {
+    max-width: 400px;
     margin: var(--space-md) auto 0;
 }
 
-.custom-url-group input[type="url"] {
+.custom-upload-top-row {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.custom-file-input {
     flex: 1;
     background: var(--color-bg);
     border: 1px solid #333;
@@ -729,25 +807,31 @@ p {
     font-size: 0.9rem;
     border-radius: var(--border-radius);
     outline: none;
-    transition: border-color 0.2s;
-    min-width: 0;
+    cursor: pointer;
 }
 
-.custom-url-group input[type="url"]:focus {
+.custom-file-input:focus {
     border-color: var(--color-red-primary);
 }
 
-.custom-url-group input[type="url"]:invalid:not(:placeholder-shown) {
-    border-color: #c0392b;
+.custom-file-input::file-selector-button {
+    background: var(--color-red-primary);
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: var(--border-radius);
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: var(--space-sm);
 }
 
-.custom-url-group input[type="url"]::placeholder {
-    color: #555;
-}
-
-/* Button that opens the external design site */
-.btn-design-link {
-    white-space: nowrap;
+.custom-file-preview {
+    display: block;
+    margin-top: var(--space-sm);
+    border-radius: var(--border-radius);
+    max-width: 200px;
 }
 
 /* Status message for custom URL input */
@@ -948,21 +1032,24 @@ p {
     position: relative;
 }
 
-.sticker-option.selected::after {
-    content: '✓';
+/* Count badge shown on selected stickers (with multi-select support) */
+.sticker-count {
     position: absolute;
-    top: var(--space-xs);
-    right: var(--space-xs);
+    top: -4px;
+    right: -4px;
     background: var(--color-red-primary);
     color: var(--color-white);
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: bold;
+    font-family: var(--font-heading);
+    box-shadow: 0 0 8px var(--color-red-glow);
+    z-index: 2;
 }
 
 .sticker-option .sticker-preview {
@@ -1427,13 +1514,19 @@ p {
     .shop-grid { grid-template-columns: 1fr; }
     .sticker-grid { grid-template-columns: repeat(2, 1fr); }
     
-    .custom-url-group {
+    .custom-decals-grid,
+    .decals-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .custom-upload-top-row {
         flex-direction: column;
     }
     
-    .btn-design-link {
+    .custom-file-input::file-selector-button {
         width: 100%;
-        text-align: center;
+        margin-right: 0;
+        margin-bottom: var(--space-xs);
     }
     
     .footer-grid {
