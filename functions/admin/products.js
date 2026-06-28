@@ -637,7 +637,7 @@ export async function onRequest(context) {
             if (!isNaN(idx) && idx >= 0 && idx < catalog.products.length) {
                 catalog.products.splice(idx, 1);
                 await context.env.DECAL_UPLOADS.put('products/catalog.json', JSON.stringify(catalog));
-                return Response.redirect(url.origin + '/admin/products?msg=Product+deleted.', 302);
+                return new Response('', { status: 302, headers: { 'Location': '/admin/products?msg=Product+deleted.' } });
             }
         }
 
@@ -734,7 +734,7 @@ export async function onRequest(context) {
                 }
 
                 await context.env.DECAL_UPLOADS.put('products/catalog.json', JSON.stringify(catalog));
-                return Response.redirect(url.origin + '/admin/products?msg=Product+saved.', 302);
+                return new Response('', { status: 302, headers: { 'Location': '/admin/products?msg=Product+saved.' } });
             }
         }
     }
