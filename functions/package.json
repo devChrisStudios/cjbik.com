@@ -1,0 +1,7 @@
+{
+    "private": true,
+    "name": "bikfam-functions",
+    "dependencies": {
+        "stripe": "^17.0.0"
+    }
+}

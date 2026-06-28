@@ -463,8 +463,26 @@ function initCartPage() {
     const cartEmpty = document.querySelector('.cart-empty');
     const cartSummary = document.querySelector('.cart-summary');
     const cartHasItems = document.querySelector('.cart-has-items');
+    const cartSuccess = document.querySelector('.cart-success');
+    const cartCancelled = document.querySelector('.cart-cancelled');
+    const cartLayout = document.querySelector('.cart-layout');
+    const checkoutBtn = document.getElementById('checkout-btn');
     
-    if (!cartContainer) return; // Not on the cart page
+    if (!cartContainer) return;
+    
+    // Check for Stripe return
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('session_id')) {
+        if (cartSuccess) cartSuccess.style.display = 'block';
+        if (cartLayout) cartLayout.style.display = 'none';
+        clearCart();
+        return;
+    }
+    if (params.get('cancelled')) {
+        if (cartCancelled) cartCancelled.style.display = 'block';
+        if (cartLayout) cartLayout.style.display = 'none';
+        return;
+    }
     
     const cart = getCart();
     
@@ -473,6 +491,7 @@ function initCartPage() {
         cartEmpty.style.display = 'block';
         cartHasItems.style.display = 'none';
         cartSummary.style.display = 'none';
+        if (checkoutBtn) checkoutBtn.disabled = true;
         return;
     }
     
@@ -598,8 +617,55 @@ function initCartPage() {
     // Update the summary with totals
     updateCartSummary();
     
+    // Enable and wire checkout button
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
+        checkoutBtn.addEventListener('click', function() {
+            checkout();
+        });
+    }
+    
 }
 
+
+/**
+ * Send cart to backend and redirect to Stripe Checkout.
+ */
+function checkout() {
+    var cart = getCart();
+    if (cart.length === 0) return;
+
+    var checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.disabled = true;
+        checkoutBtn.textContent = 'Redirecting to Stripe...';
+    }
+
+    fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            if (checkoutBtn) {
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Proceed to Checkout';
+            }
+            alert('Something went wrong. Please try again.');
+        }
+    })
+    .catch(function() {
+        if (checkoutBtn) {
+            checkoutBtn.disabled = false;
+            checkoutBtn.textContent = 'Proceed to Checkout';
+        }
+        alert('Could not connect to checkout. Please try again.');
+    });
+}
 
 /**
  * Update the cart summary sidebar (subtotal, total, etc.)

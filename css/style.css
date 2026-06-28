@@ -1329,25 +1329,6 @@ p {
     opacity: 0.5;
 }
 
-/* Stripe / checkout notice */
-.stripe-notice {
-    background: rgba(217, 4, 41, 0.1);
-    border: 1px dashed var(--color-red-dark);
-    border-radius: var(--border-radius);
-    padding: var(--space-md);
-    margin-top: var(--space-md);
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-}
-
-.stripe-notice strong {
-    color: var(--color-red-primary);
-    display: block;
-    margin-bottom: var(--space-xs);
-    font-family: var(--font-subheading);
-    text-transform: uppercase;
-}
-
 
 
 /* ============================================================

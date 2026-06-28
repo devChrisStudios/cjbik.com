@@ -1,26 +1,6 @@
 <!DOCTYPE html>
 <!-- ============================================================
      BIKFAM STICKER SHOP - Shopping Cart
-     ============================================================
-     This page shows what's in your cart, lets you adjust
-     quantities, remove items, and proceed to checkout.
-     
-     IMPORTANT: STRIPE / PAYMENT SETUP
-     ----------------------------------
-     This page includes notes and placeholders for Stripe
-     integration. You'll need to:
-     
-     1. Create a Stripe account at https://stripe.com
-     2. Get your publishable key (starts with pk_live_ or pk_test_)
-     3. Create a backend endpoint to handle payment processing
-     4. Replace the placeholder checkout button logic
-     
-     For Cloudflare Pages + Stripe, you have options:
-     - Use Stripe Checkout (hosted payment page - EASIEST)
-     - Use Stripe Elements (embedded payment form)
-     - Use a Cloudflare Worker for backend processing
-     
-     See the stripe-notice section below for more details.
      ============================================================ -->
 
 <html lang="en">
@@ -82,6 +62,25 @@
                  LEFT:  List of cart items
                  RIGHT: Order summary sidebar -->
             
+            <!-- Success / Cancel messages (shown after Stripe redirect) -->
+            <div class="cart-success" style="display:none; text-align:center; padding:var(--space-xl);">
+                <div style="font-size:4rem; margin-bottom:var(--space-md);">🎉</div>
+                <h2 style="margin-bottom:var(--space-sm);">Payment Successful!</h2>
+                <p class="subheading" style="margin-bottom:var(--space-lg);">
+                    Thanks for your order. You'll get a confirmation email from Stripe.
+                </p>
+                <a href="/shop" class="btn btn-primary">Continue Shopping</a>
+            </div>
+
+            <div class="cart-cancelled" style="display:none; text-align:center; padding:var(--space-xl);">
+                <div style="font-size:4rem; margin-bottom:var(--space-md);">↩️</div>
+                <h2 style="margin-bottom:var(--space-sm);">Payment Cancelled</h2>
+                <p class="subheading" style="margin-bottom:var(--space-lg);">
+                    No charges were made. Your items are still saved in your cart.
+                </p>
+                <a href="/cart" class="btn btn-primary">Review Cart</a>
+            </div>
+
             <div class="cart-layout">
                 
                 <!-- ======== CART ITEMS (LEFT) ======== -->
@@ -162,68 +161,12 @@
                         <span class="amount">$0.00</span>
                     </div>
                     
-                    <!-- ============================================================
-                         CHECKOUT BUTTON
-                         ============================================================
-                         THIS IS WHERE YOU NEED TO INTEGRATE STRIPE.
-                         
-                         OPTION 1: Stripe Checkout (RECOMMENDED for beginners)
-                         ----------
-                         1. Add the Stripe.js library:
-                            <script src="https://js.stripe.com/v3/"></script>
-                            
-                         2. Create a Checkout Session on your backend:
-                            // Cloudflare Worker or any server endpoint
-                            
-                         3. Redirect to Stripe's hosted checkout page:
-                            const stripe = Stripe('pk_live_YOUR_KEY_HERE');
-                            stripe.redirectToCheckout({ sessionId: 'cs_xxx' });
-                            
-                         
-                         OPTION 2: Stripe Elements (embedded form)
-                         ----------
-                         More complex but keeps users on your site.
-                         You need a backend to create PaymentIntents.
-                         
-                         
-                         CLOUDFLARE PAGES NOTE:
-                         For Cloudflare Pages, you can use Cloudflare Workers
-                         as your backend API to handle Stripe payments.
-                         See: https://developers.cloudflare.com/workers/
-                         
-                         
-                         THE BUTTON BELOW IS A PLACEHOLDER.
-                         Replace the onclick handler with your Stripe logic.
-                         ============================================================ -->
-                    
                     <button class="btn btn-primary btn-lg" 
                             style="width: 100%;" 
                             id="checkout-btn"
                             disabled>
-                        <!-- The button is disabled by default - enable it once
-                             you have Stripe set up by removing the 'disabled'
-                             attribute and updating the onclick handler -->
                         Proceed to Checkout
                     </button>
-                    
-                    <!-- STRIPE SETUP NOTE -->
-                    <div class="stripe-notice">
-                        <strong>🔧 Stripe Integration Required</strong>
-                        <p>
-                            This button needs to be connected to Stripe to 
-                            process payments. Here's what to do:
-                        </p>
-                        <ol style="margin-top: var(--space-sm); padding-left: var(--space-lg); font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.8;">
-                            <li>Sign up at <a href="https://stripe.com" target="_blank">stripe.com</a></li>
-                            <li>Add the Stripe.js script to this page</li>
-                            <li>Create a backend endpoint (or Cloudflare Worker) to create Checkout Sessions</li>
-                            <li>Update the checkout button to call your backend and redirect to Stripe</li>
-                        </ol>
-                        <p style="margin-top: var(--space-sm); font-size: 0.8rem;">
-                            Need help? Check the Stripe docs: 
-                            <a href="https://stripe.com/docs/checkout" target="_blank">stripe.com/docs/checkout</a>
-                        </p>
-                    </div>
                     
                 </aside>
                 
@@ -280,43 +223,6 @@
 
     <!-- ======== JAVASCRIPT ======== -->
     <script src="js/main.js"></script>
-    
-    <!-- 
-         STRIPE SETUP - Uncomment and configure when ready:
-         
-         <script src="https://js.stripe.com/v3/"></script>
-         <script>
-             // Initialize Stripe with your publishable key
-             const stripe = Stripe('pk_live_YOUR_PUBLISHABLE_KEY_HERE');
-             
-             // Get the checkout button
-             const checkoutBtn = document.getElementById('checkout-btn');
-             
-             // Add click handler
-             checkoutBtn.addEventListener('click', async function() {
-                 // Get cart items from localStorage
-                 const cart = JSON.parse(localStorage.getItem('bikfam-cart') || '[]');
-                 
-                 // Send cart to your backend to create a Checkout Session
-                 const response = await fetch('/api/create-checkout-session', {
-                     method: 'POST',
-                     headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify({ items: cart })
-                 });
-                 
-                 const session = await response.json();
-                 
-                 // Redirect to Stripe Checkout
-                 const result = await stripe.redirectToCheckout({
-                     sessionId: session.id
-                 });
-                 
-                 if (result.error) {
-                     alert(result.error.message);
-                 }
-             });
-         </script>
-    -->
 
 </body>
 </html>
