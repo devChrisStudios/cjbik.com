@@ -15,21 +15,32 @@ export async function onRequest(context) {
         const origin = new URL(context.request.url).origin;
 
         const lineItems = items.map(function(item) {
+            var descParts = [];
+
+            if (item.type === 'custom' && item.stickers && item.stickers.length > 0) {
+                descParts.push('Stickers: ' + item.stickers.join(', '));
+            }
+            if (item.color) {
+                descParts.push('Color: ' + item.color);
+            }
+            if (item.handle) {
+                descParts.push('Handle: ' + item.handle);
+            }
+            if (item.imageId) {
+                descParts.push('Image: ' + item.imageId);
+            }
+
             const lineItem = {
                 price_data: {
                     currency: 'usd',
                     product_data: {
                         name: item.name,
+                        description: descParts.join(' | '),
                     },
                     unit_amount: Math.round((item.price || 0) * 100),
                 },
                 quantity: item.quantity || 1,
             };
-
-            if (item.type === 'custom' && item.stickers && item.stickers.length > 0) {
-                lineItem.price_data.product_data.description =
-                    'Stickers: ' + item.stickers.join(', ');
-            }
 
             return lineItem;
         });
@@ -39,6 +50,12 @@ export async function onRequest(context) {
             mode: 'payment',
             success_url: origin + '/cart?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: origin + '/cart?cancelled=1',
+            shipping_address_collection: {
+                allowed_countries: ['US', 'CA'],
+            },
+            phone_number_collection: {
+                enabled: true,
+            },
             metadata: {
                 cart_json: JSON.stringify(items),
             },

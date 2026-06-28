@@ -72,12 +72,37 @@ function renderDashboard(orders) {
         var date = order.createdAt ? new Date(order.createdAt).toLocaleString() : '—';
         var name = escapeHtml(order.customerName || '—');
         var email = escapeHtml(order.customerEmail || '—');
+        var phone = order.customerPhone ? escapeHtml(order.customerPhone) : null;
         var total = order.amountTotal ? '$' + (order.amountTotal / 100).toFixed(2) : '—';
+
+        var shippingHtml = '—';
+        var addr = order.shippingAddress;
+        if (addr && (addr.line1 || addr.city)) {
+            var parts = [];
+            if (addr.line1) parts.push(escapeHtml(addr.line1));
+            if (addr.line2) parts.push(escapeHtml(addr.line2));
+            var cityLine = '';
+            if (addr.city) cityLine += escapeHtml(addr.city);
+            if (addr.state) cityLine += (cityLine ? ', ' : '') + escapeHtml(addr.state);
+            if (addr.postalCode) cityLine += ' ' + escapeHtml(addr.postalCode);
+            if (cityLine) parts.push(cityLine);
+            if (addr.country) parts.push(escapeHtml(addr.country));
+            shippingHtml = parts.join('<br>');
+        }
+
+        var customerInfo = name;
+        customerInfo += '<br><span style="color:#888;font-size:0.8em">' + email + '</span>';
+        if (phone) {
+            customerInfo += '<br><span style="color:#888;font-size:0.8em">' + phone + '</span>';
+        }
+
+        var cols = 5;
 
         return '<tr>' +
             '<td>' + date + '</td>' +
-            '<td>' + name + '<br><span style="color:#888;font-size:0.8em">' + email + '</span></td>' +
+            '<td>' + customerInfo + '</td>' +
             '<td>' + itemsHtml + '</td>' +
+            '<td>' + shippingHtml + '</td>' +
             '<td>' + total + '</td>' +
             '</tr>';
     }).join('') || '<tr><td colspan="4" style="text-align:center;color:#888;padding:2rem">No orders yet</td></tr>';
@@ -114,7 +139,7 @@ function renderDashboard(orders) {
     '<div class="content">' +
     (orders.length === 0 ?
         '<div class="empty"><div class="empty-icon">📦</div><p>No orders yet</p></div>' :
-        '<table><thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Total</th></tr></thead><tbody>' + rows + '</tbody></table>') +
+        '<table><thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Shipping</th><th>Total</th></tr></thead><tbody>' + rows + '</tbody></table>') +
     '</div>' +
     '</body>' +
     '</html>';
