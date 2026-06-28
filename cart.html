@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!-- ============================================================
-     BIKFAM STICKER SHOP - Shopping Cart
-     ============================================================ -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -56,13 +52,6 @@
             </div>
             
             
-            <!-- ============================================================
-                 CART LAYOUT
-                 ============================================================
-                 Two-column layout:
-                 LEFT:  List of cart items
-                 RIGHT: Order summary sidebar -->
-            
             <!-- Success / Cancel messages (shown after Stripe redirect) -->
             <div class="cart-success" style="display:none; text-align:center; padding:var(--space-xl);">
                 <div style="font-size:4rem; margin-bottom:var(--space-md);">🎉</div>
@@ -104,24 +93,6 @@
                         <!-- Cart items container - populated by main.js -->
                         <div class="cart-items">
                             <div class="cart-items-container">
-                                <!-- Each cart item is rendered here by JavaScript.
-                                     The template looks like:
-                                     
-                                     <div class="cart-item">
-                                         <div class="cart-item-image">🤍</div>
-                                         <div class="cart-item-info">
-                                             <h4>White 12-Pack</h4>
-                                             <div class="item-detail">$24.99 each</div>
-                                         </div>
-                                         <div class="cart-item-quantity">
-                                             <button class="qty-btn">−</button>
-                                             <span>1</span>
-                                             <button class="qty-btn">+</button>
-                                         </div>
-                                         <div class="cart-item-total">$24.99</div>
-                                         <button class="cart-item-remove">✕ Remove</button>
-                                     </div>
-                                -->
                             </div>
                         </div>
                         
@@ -152,7 +123,6 @@
                     <!-- Shipping placeholder -->
                     <div class="summary-row">
                         <span>Shipping</span>
-                        <!-- NOTE: Update this when you figure out shipping costs -->
                         <span class="text-muted">Calculated at checkout</span>
                     </div>
                     

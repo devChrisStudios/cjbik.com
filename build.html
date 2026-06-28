@@ -1,24 +1,4 @@
 <!DOCTYPE html>
-<!-- ============================================================
-     BIKFAM STICKER SHOP - Custom 12-Pack Builder
-     ============================================================
-     This page lets users build their own custom 12-pack by
-     selecting individual stickers from a grid of all available
-     designs.
-     
-     HOW IT WORKS:
-     - All available stickers are loaded from js/build.js
-     - Click a sticker to add it to your pack
-     - Click it again to remove it
-     - You need exactly 12 to add to cart
-     - The sidebar shows your progress and selected items
-     
-     THINGS TO CUSTOMIZE:
-     1. The price in js/build.js (search for PACK_PRICE)
-     2. Add/remove stickers from the STICKERS array in build.js
-     3. Replace emoji placeholders with real images
-     ============================================================ -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -81,45 +61,23 @@
             <div class="builder-layout">
                 
                 <!-- ======== STICKER GRID (LEFT) ======== -->
-                <!-- 
-                     The sticker grid is populated by JavaScript (js/build.js).
-                     Each sticker from the STICKERS array in build.js gets
-                     rendered as a clickable card here.
-                     
-                     The grid starts empty and gets filled in by JavaScript
-                     when the page loads. This keeps the HTML clean and
-                     makes it easy to add/remove stickers just by editing
-                     the STICKERS array.
-                -->
                 <div class="sticker-grid">
                     <!-- Stickers will be inserted here by build.js -->
                 </div>
                 
                 
-                <!-- ======== SIDEBAR (RIGHT) ======== -->
-                <!-- 
-                     This sidebar shows the user's progress (X/12 selected),
-                     a visual progress bar, the list of selected stickers,
-                     and the "Add to Cart" button.
-                     
-                     It uses position: sticky so it follows you as you scroll
-                     through the sticker grid on desktop.
-                -->
                 <aside class="builder-sidebar">
                     
                     <h3>Your Pack</h3>
                     
-                    <!-- Progress bar showing how full the pack is -->
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                     
-                    <!-- Counter text (gets updated by JavaScript) -->
                     <div class="progress-text">
                         <span class="count">0/12</span> selected
                     </div>
                     
-                    <!-- List of currently selected stickers -->
                     <div class="selected-list">
                         <div class="builder-empty">
                             <div class="empty-icon">🖍️</div>
@@ -127,28 +85,11 @@
                         </div>
                     </div>
                     
-                    <!-- 
-                         ADD TO CART BUTTON
-                         This is disabled until exactly 12 stickers are selected.
-                         The text updates dynamically thanks to build.js.
-                         
-                         IMPORTANT: The actual price is set in js/build.js.
-                         Search for PACK_PRICE in that file to change it.
-                    -->
                     <button class="btn btn-primary btn-lg btn-add-custom-pack" 
                             style="width: 100%; margin-top: var(--space-md);" 
                             disabled>
                         Select Your Stickers
                     </button>
-                    
-                    <!-- 
-                         NOTE ABOUT THE CUSTOM PACK:
-                         The JavaScript in build.js will handle adding this to
-                         the cart. When "Add to Cart" is clicked, it creates a
-                         custom pack item with all the selected sticker IDs
-                         stored in the cart item so you know what was picked.
-                    -->
-                    
                 </aside>
                 
             </div>

@@ -1,31 +1,12 @@
 /* ============================================================
-   BIKFAM STICKER SHOP - Main JavaScript (Shared Across Pages)
+   BIKFAM STICKER SHOP - Main JavaScript
    ============================================================
-   This file handles things that are needed on EVERY page:
-   - Mobile menu toggle (hamburger)
-   - Cart management (add/remove items using localStorage)
-   - Cart count badge update
-   - Page-specific initialization
+   Handles mobile menu, cart management (localStorage), cart
+   badge, and page-specific initialization.
    
-   WHAT IS localStorage?
-   ---------------------
-   localStorage is like a tiny database in your browser that
-   survives page refreshes. We use it to store the shopping
-   cart so items don't disappear when you navigate around.
-   
-   HOW THE CART WORKS:
-   -------------------
-   The cart is an array of objects, saved as JSON in localStorage
-   under the key 'bikfam-cart'. Each item looks like:
-   {
-     id: 'white-pack',          // Unique identifier
-     name: 'White 12-Pack',     // Display name  
-     price: 19.99,              // Price per unit
-     quantity: 1,               // How many of this item
-     image: '🤍',              // Emoji placeholder for image
-     type: 'premade'            // 'premade' or 'custom'
-     items: [...]               // Only for custom packs - list of chosen stickers
-   }
+   Cart is an array of objects stored in localStorage key
+   'bikfam-cart'. Each item: { id, name, price, quantity, image,
+   type } where type is 'premade', 'custom', or 'decal'.
    ============================================================ */
 
 
@@ -39,20 +20,14 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- SETUP: Mobile Menu Toggle ---
-    // Finds the hamburger button and the nav links, then makes
-    // clicking the button open/close the menu on small screens.
-    
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', function() {
-            // 'toggle' adds the class if it's missing, removes it if present
             navLinks.classList.toggle('open');
         });
         
-        // Close menu when a link is clicked (better UX on mobile)
         navLinks.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function() {
                 navLinks.classList.remove('open');
@@ -60,22 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-    // --- SETUP: Update Cart Badge ---
-    // Shows the number of items in the cart on the cart icon
     updateCartBadge();
 
-
-    // --- SETUP: Page-Specific Initialization ---
-    // Each page gets its own setup function. This keeps things
-    // organized instead of having one giant block of code.
-    
     const page = document.body.dataset.page;
     
     if (page === 'shop' || page === 'home') {
         initShopPage();
     } else if (page === 'builder') {
-        // Builder has its own JS file - that's init'd separately
     } else if (page === 'cart') {
         initCartPage();
     }
@@ -95,81 +61,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Get the current cart from localStorage.
- * If there's no cart yet, returns an empty array.
- * 
  * @returns {Array} The cart array of items
  */
 function getCart() {
-    // localStorage.getItem returns null if the key doesn't exist
-    // The || [] means "if null/empty, use an empty array instead"
-    // JSON.parse converts the stored string back to a JavaScript array
     const stored = localStorage.getItem('bikfam-cart');
     return stored ? JSON.parse(stored) : [];
 }
 
-
 /**
  * Save the cart to localStorage.
- * 
  * @param {Array} cart - The cart array to save
  */
 function saveCart(cart) {
-    // JSON.stringify converts the JavaScript array to a string so
-    // it can be stored in localStorage (which only handles strings)
     localStorage.setItem('bikfam-cart', JSON.stringify(cart));
-    // Update the badge after saving
     updateCartBadge();
 }
-
 
 /**
  * Add an item to the cart.
  * If the item already exists (same id), increase its quantity instead.
- * 
  * @param {Object} item - The item to add { id, name, price, image, type }
  */
 function addToCart(item) {
     const cart = getCart();
     
-    // Check if this item (by ID) is already in the cart
     const existing = cart.find(function(cartItem) {
         return cartItem.id === item.id;
     });
     
     if (existing) {
-        // Item exists - just increase quantity
         existing.quantity = (existing.quantity || 1) + 1;
     } else {
-        // New item - add it with quantity 1
         item.quantity = 1;
         cart.push(item);
     }
     
     saveCart(cart);
     
-    // Show a brief confirmation feedback
     showAddedFeedback(item.name);
 }
 
-
 /**
  * Remove an item from the cart by its ID.
- * 
  * @param {string} itemId - The ID of the item to remove
  */
 function removeFromCart(itemId) {
     let cart = getCart();
-    // filter creates a new array without the matching item
     cart = cart.filter(function(item) {
         return item.id !== itemId;
     });
     saveCart(cart);
 }
 
-
 /**
  * Update the quantity of an item in the cart.
- * 
  * @param {string} itemId - The item's ID
  * @param {number} newQty - The new quantity (must be at least 1)
  */
@@ -182,7 +127,6 @@ function updateQuantity(itemId, newQty) {
     
     if (item) {
         if (newQty <= 0) {
-            // Quantity is 0 or negative - remove the item
             removeFromCart(itemId);
             return;
         }
@@ -206,7 +150,6 @@ function getCartTotal() {
         total += price * (item.quantity || 1);
     });
     
-    console.log('Cart total:', total);
     return total;
 }
 
@@ -228,55 +171,31 @@ function getCartCount() {
 }
 
 
-/**
- * Clear the entire cart.
- */
 function clearCart() {
     localStorage.removeItem('bikfam-cart');
     updateCartBadge();
 }
 
-
-
-// ============================================================
-// UI UPDATES
-// ============================================================
-
-
-/**
- * Update the cart count badge in the header navigation.
- * This runs every time the cart changes.
- */
 function updateCartBadge() {
     const badge = document.querySelector('.cart-count');
     if (badge) {
         const count = getCartCount();
         badge.textContent = count;
-        // Hide the badge if cart is empty
         badge.style.display = count > 0 ? 'flex' : 'none';
     }
 }
 
 
-/**
- * Show a brief "Added to cart!" feedback message.
- * Creates a small toast-like notification that fades away.
- * 
- * @param {string} itemName - The name of the item that was added
- */
 function showAddedFeedback(itemName) {
-    // Remove any existing feedback first (only show one at a time)
     const existing = document.querySelector('.cart-feedback');
     if (existing) {
         existing.remove();
     }
     
-    // Create the feedback element
     const feedback = document.createElement('div');
     feedback.className = 'cart-feedback';
     feedback.innerHTML = '✓ ' + itemName + ' added to cart!';
     
-    // Style it inline (so we don't need CSS for this tiny element)
     feedback.style.cssText = [
         'position: fixed',
         'bottom: 30px',
@@ -296,7 +215,6 @@ function showAddedFeedback(itemName) {
     
     document.body.appendChild(feedback);
     
-    // Auto-remove after 2.5 seconds
     setTimeout(function() {
         feedback.style.opacity = '0';
         setTimeout(function() {
@@ -315,10 +233,8 @@ function showAddedFeedback(itemName) {
 
 function initShopPage() {
     
-    // Find all "Add to Cart" buttons on the page
     const addButtons = document.querySelectorAll('.btn-add-cart');
     
-    // Set up file upload for custom decal inputs
     document.querySelectorAll('.custom-file-input').forEach(function(input) {
         const card = input.closest('.card');
         const statusEl = card.querySelector('.custom-url-status');
@@ -411,15 +327,13 @@ function initShopPage() {
         });
     });
     
-    // --- Standard decal color pickers ---
     document.querySelectorAll('.color-selector').forEach(function(selector) {
         const options = selector.querySelectorAll('.color-option');
-        const targetBase = selector.dataset.target; // e.g. 'odi-standard' or 'motocutz-standard'
+        const targetBase = selector.dataset.target;
         options.forEach(function(option) {
             option.addEventListener('click', function() {
                 options.forEach(function(o) { o.classList.remove('selected'); });
                 option.classList.add('selected');
-                // Swap the card image to match the selected color
                 const card = selector.closest('.card');
                 const img = card.querySelector('.card-image img');
                 if (img && targetBase) {
@@ -430,7 +344,6 @@ function initShopPage() {
         });
     });
     
-    // --- Standard decal "Add to Cart" handlers ---
     document.querySelectorAll('.btn-add-decal').forEach(function(button) {
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -479,7 +392,6 @@ function initCartPage() {
     
     if (!cartContainer) return;
     
-    // Check for Stripe return
     var params = new URLSearchParams(window.location.search);
     if (params.get('session_id')) {
         if (cartSuccess) cartSuccess.style.display = 'block';
@@ -494,7 +406,6 @@ function initCartPage() {
     }
     
     const cart = getCart();
-    console.log('Cart items:', JSON.stringify(cart, null, 2));
     
     // Show empty state or items
     if (cart.length === 0) {
@@ -538,28 +449,27 @@ function initCartPage() {
         
         const itemTotal = (item.price || 0) * (item.quantity || 1);
         
-        // For custom packs, show the list of chosen stickers
         var extraDetail = '';
         if (item.type === 'custom' && item.stickers && item.stickers.length > 0) {
             extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; color: #666;">' +
                           item.stickers.join(', ') +
                           '</div>';
         }
-        // For custom decals, show the design URL
-        if (item.type === 'custom' && item.designUrl) {
-            extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; word-break: break-all;">' +
-                          'Design URL: <a href="' + item.designUrl + '" target="_blank" rel="noopener" style="color: var(--color-red-primary);">' +
-                          item.designUrl + '</a></div>';
+        if (item.type === 'custom' && item.imageId) {
+            extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; color: #666;">' +
+                          'Custom design uploaded' +
+                          '</div>';
         }
-        // For standard decals, show the handle
         if (item.type === 'decal' && item.handle) {
             extraDetail = '<div class="item-detail" style="font-size: 0.75rem; margin-top: 4px; color: #666;">' +
                           'Handle: ' + item.handle +
                           '</div>';
         }
         
+        var imgSrc = item.image || '📦';
+        var isEmoji = imgSrc.length <= 2;
         itemEl.innerHTML = [
-            '<div class="cart-item-image"><img src="' + (item.image || '📦') + '" alt="' + item.name + '"></div>',
+            '<div class="cart-item-image">' + (isEmoji ? '<span style="font-size:2rem;">' + imgSrc + '</span>' : '<img src="' + imgSrc + '" alt="' + item.name + '">') + '</div>',
             '<div class="cart-item-info">',
             '  <h4>' + item.name + '</h4>',
             '  <div class="item-detail">' + formatPrice(item.price) + ' each</div>',
@@ -638,9 +548,6 @@ function initCartPage() {
 }
 
 
-/**
- * Send cart to backend and redirect to Stripe Checkout.
- */
 function checkout() {
     var cart = getCart();
     if (cart.length === 0) return;
@@ -684,9 +591,6 @@ function checkout() {
     });
 }
 
-/**
- * Update the cart summary sidebar (subtotal, total, etc.)
- */
 function updateCartSummary() {
     const subtotalEl = document.querySelector('.summary-subtotal .amount');
     const totalEl = document.querySelector('.total .amount');
@@ -703,12 +607,6 @@ function updateCartSummary() {
 }
 
 
-/**
- * Format a price value for display.
- * 
- * @param {number} price - The price value
- * @returns {string} Formatted price string like "$24.99"
- */
 function formatPrice(price) {
     return '$' + (parseFloat(price) || 0).toFixed(2);
 }
