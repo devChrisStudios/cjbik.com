@@ -242,16 +242,28 @@ const COLOR_HEX = {
 
 
 // ============================================================
+// PLACEHOLDER IMAGE
+// ============================================================
+
+const PLACEHOLDER_IMG = 'images/placeholder.svg';
+
+
+// ============================================================
 // PRODUCT RENDERERS
 // ============================================================
 
+function imgOrDefault(src, name) {
+    return src && src.indexOf('://') === -1 && src.indexOf('/') !== -1 ? src : PLACEHOLDER_IMG;
+}
+
 function renderPackCard(p) {
+    const img = imgOrDefault(p.image, p.name);
     const features = (p.features || []).map(function(f) {
         return '<li>' + f + '</li>';
     }).join('');
     return '<div class="card">' +
         '<div class="card-image">' +
-        '  <img src="' + p.image + '" alt="' + p.name + '">' +
+        '  <img src="' + img + '" alt="' + p.name + '">' +
         '</div>' +
         '<div class="card-body">' +
         '  <h2 class="card-title">' + p.name + '</h2>' +
@@ -265,7 +277,7 @@ function renderPackCard(p) {
         '          data-id="' + p.id + '"' +
         '          data-name="' + p.name + '"' +
         '          data-price="' + p.price + '"' +
-        '          data-image="' + p.image + '">' +
+        '          data-image="' + img + '">' +
         '    Add to Cart' +
         '  </button>' +
         '</div>' +
@@ -273,6 +285,7 @@ function renderPackCard(p) {
 }
 
 function renderDecalCard(p) {
+    const img = imgOrDefault(p.baseImage, p.name);
     const colors = (p.colors || []).map(function(c) {
         const hex = COLOR_HEX[c] || '#888';
         const borderStyle = c === 'White' ? 'border-color:#ccc;' : '';
@@ -281,7 +294,7 @@ function renderDecalCard(p) {
     }).join('');
     return '<div class="card">' +
         '<div class="card-image">' +
-        '  <img src="' + p.baseImage + '" alt="' + p.name + '">' +
+        '  <img src="' + img + '" alt="' + p.name + '">' +
         '</div>' +
         '<div class="card-body">' +
         '  <h2 class="card-title">' + p.name + '</h2>' +
@@ -295,7 +308,7 @@ function renderDecalCard(p) {
         '          data-base-id="' + p.id + '"' +
         '          data-name="' + p.name + '"' +
         '          data-price="' + p.price + '"' +
-        '          data-image="' + p.baseImage + '">' +
+        '          data-image="' + img + '">' +
         '    Add to Cart' +
         '  </button>' +
         '</div>' +
@@ -304,6 +317,9 @@ function renderDecalCard(p) {
 
 function renderCustomDecalCard(p) {
     return '<div class="card">' +
+        '<div class="card-image">' +
+        '  <img src="' + PLACEHOLDER_IMG + '" alt="' + p.name + '">' +
+        '</div>' +
         '<div class="card-body">' +
         '  <h2 class="card-title">' + p.name + '</h2>' +
         '  <span class="color-badge ' + (p.badgeClass || 'color-badge-white') + '">' + (p.badge || '') + '</span>' +
@@ -325,7 +341,7 @@ function renderCustomDecalCard(p) {
         '          data-id="' + p.id + '"' +
         '          data-name="' + p.name + '"' +
         '          data-price="' + p.price + '"' +
-        '          data-image="🎨"' +
+        '          data-image="' + PLACEHOLDER_IMG + '"' +
         '          data-custom="true">' +
         '    Add to Cart' +
         '  </button>' +
@@ -634,7 +650,7 @@ function initCartPage() {
                           '</div>';
         }
         
-        const imgSrc = item.image || '📦';
+        const imgSrc = item.image || PLACEHOLDER_IMG;
         const isPath = imgSrc.indexOf('/') !== -1 || imgSrc.indexOf('.') !== -1;
         itemEl.innerHTML = [
             '<div class="cart-item-image">' + (isPath ? '<img src="' + imgSrc + '" alt="' + item.name + '">' : '<span style="font-size:2rem;">' + imgSrc + '</span>') + '</div>',

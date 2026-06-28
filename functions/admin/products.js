@@ -115,14 +115,9 @@ function renderPage(catalog, message) {
             decal: 'Decal',
             'custom-decal': 'Custom Decal'
         }[p.type] || p.type;
-        var imgSrc = p.image || p.baseImage || '';
-        var imgHtml;
-        if (imgSrc) {
-            if (imgSrc.indexOf('://') === -1 && !imgSrc.startsWith('/')) imgSrc = '/' + imgSrc;
-            imgHtml = '<img src="' + escapeHtml(imgSrc) + '" style="width:50px;height:50px;object-fit:contain;border-radius:4px;background:#1e1e1e;vertical-align:middle">';
-        } else {
-            imgHtml = '<div style="width:50px;height:50px;border-radius:4px;background:#1e1e1e"></div>';
-        }
+        var imgSrc = p.image || p.baseImage || 'images/placeholder.svg';
+        if (imgSrc.indexOf('://') === -1 && !imgSrc.startsWith('/')) imgSrc = '/' + imgSrc;
+        var imgHtml = '<img src="' + escapeHtml(imgSrc) + '" style="width:50px;height:50px;object-fit:contain;border-radius:4px;background:#1e1e1e;vertical-align:middle">';
         return '<tr>' +
             '<td>' + imgHtml + '</td>' +
             '<td>' + escapeHtml(p.id) + '</td>' +
