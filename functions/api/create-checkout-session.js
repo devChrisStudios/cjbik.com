@@ -30,13 +30,15 @@ export async function onRequest(context) {
                 descParts.push('Image: ' + item.imageId);
             }
 
+            var product_data = { name: item.name };
+            if (descParts.length > 0) {
+                product_data.description = descParts.join(' | ');
+            }
+
             const lineItem = {
                 price_data: {
                     currency: 'usd',
-                    product_data: {
-                        name: item.name,
-                        description: descParts.join(' | '),
-                    },
+                    product_data: product_data,
                     unit_amount: Math.round((item.price || 0) * 100),
                 },
                 quantity: item.quantity || 1,
