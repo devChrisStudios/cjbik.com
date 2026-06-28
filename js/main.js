@@ -654,7 +654,14 @@ function checkout() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: cart })
     })
-    .then(function(res) { return res.json(); })
+    .then(function(res) {
+        if (!res.ok) {
+            return res.text().then(function(text) {
+                throw new Error('Server error: ' + text);
+            });
+        }
+        return res.json();
+    })
     .then(function(data) {
         if (data.url) {
             window.location.href = data.url;
@@ -663,15 +670,15 @@ function checkout() {
                 checkoutBtn.disabled = false;
                 checkoutBtn.textContent = 'Proceed to Checkout';
             }
-            alert('Something went wrong. Please try again.');
+            alert(data.error || 'Something went wrong. Please try again.');
         }
     })
-    .catch(function() {
+    .catch(function(err) {
         if (checkoutBtn) {
             checkoutBtn.disabled = false;
             checkoutBtn.textContent = 'Proceed to Checkout';
         }
-        alert('Could not connect to checkout. Please try again.');
+        alert('Checkout error: ' + err.message);
     });
 }
 
@@ -696,14 +703,10 @@ function updateCartSummary() {
 
 /**
  * Format a price value for display.
- * Shows "TBD" if price is 0 or not set (placeholder for unconfigured pricing).
  * 
  * @param {number} price - The price value
- * @returns {string} Formatted price string like "$24.99" or "TBD"
+ * @returns {string} Formatted price string like "$24.99"
  */
 function formatPrice(price) {
-    if (!price || price <= 0) {
-        return 'TBD';
-    }
-    return '$' + price.toFixed(2);
+    return '$' + (parseFloat(price) || 0).toFixed(2);
 }
