@@ -43,11 +43,26 @@ function escapeHtml(str) {
 function renderDashboard(orders) {
     var rows = orders.map(function(order) {
         var itemsHtml = (order.items || []).map(function(item) {
+            var details = [];
+
+            if (item.color) {
+                details.push('Color: ' + escapeHtml(item.color));
+            }
+            if (item.handle) {
+                details.push('Handle: ' + escapeHtml(item.handle));
+            }
+            if (item.stickers && item.stickers.length > 0) {
+                details.push('Stickers: ' + escapeHtml(item.stickers.join(', ')));
+            }
+
             var imgLink = '';
             if (item.imageId) {
-                imgLink = ' — <a href="/admin/image?key=' + encodeURIComponent(item.imageId) + '" target="_blank" style="color:#d90429">View Decal</a>';
+                imgLink = ' <a href="/admin/image?key=' + encodeURIComponent(item.imageId) + '" target="_blank" style="color:#d90429">[View Decal]</a>';
             }
-            return '<div style="padding:2px 0">' + escapeHtml(item.name) + ' × ' + (item.quantity || 1) + imgLink + '</div>';
+
+            var detailHtml = details.length > 0 ? '<div style="font-size:0.8em;color:#888;margin-top:2px">' + details.join(' | ') + '</div>' : '';
+
+            return '<div style="padding:4px 0">' + escapeHtml(item.name) + ' × ' + (item.quantity || 1) + imgLink + detailHtml + '</div>';
         }).join('');
 
         var date = order.createdAt ? new Date(order.createdAt).toLocaleString() : '—';
