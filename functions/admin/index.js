@@ -123,17 +123,6 @@ function renderDashboard(orders) {
 export async function onRequest(context) {
     const { request, env } = context;
 
-    // Handle logout
-    if (request.method === 'GET' && new URL(request.url).pathname === '/admin/logout') {
-        return new Response('', {
-            status: 302,
-            headers: {
-                'Location': '/admin',
-                'Set-Cookie': 'admin_sesh=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax'
-            }
-        });
-    }
-
     // Handle login POST
     if (request.method === 'POST') {
         var formData = await request.formData();
