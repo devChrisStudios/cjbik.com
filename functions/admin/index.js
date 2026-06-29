@@ -211,8 +211,8 @@ export async function onRequest(context) {
                         }
                     }
                 }
-            } catch (_) {
-                // Old listing is best-effort; ignore errors
+            } catch (e) {
+                fetchError = 'Read old orders: ' + (e.message || e);
             }
 
             orders.sort(function(a, b) {
