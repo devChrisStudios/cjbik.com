@@ -183,15 +183,41 @@ export async function onRequest(context) {
         var orders = [];
         var fetchError = null;
         try {
-            var data = await env.DECAL_UPLOADS.get('orders.json');
-            if (data) {
-                var text = await data.text();
+            // New format: single orders.json file
+            var ordersFile = await env.DECAL_UPLOADS.get('orders.json');
+            if (ordersFile) {
+                var text = await ordersFile.text();
                 orders = JSON.parse(text);
                 if (!Array.isArray(orders)) orders = [];
-                orders.sort(function(a, b) {
-                    return new Date(b.createdAt) - new Date(a.createdAt);
-                });
             }
+
+            // Backward compat: also read old individual order files under orders/ prefix
+            // and merge them in (avoids duplicates by sessionId)
+            var existingIds = {};
+            orders.forEach(function(o) { if (o.sessionId) existingIds[o.sessionId] = true; });
+            try {
+                var list = await env.DECAL_UPLOADS.list({ prefix: 'orders/' });
+                if (list.objects && Array.isArray(list.objects)) {
+                    for (var i = 0; i < list.objects.length; i++) {
+                        var obj = list.objects[i];
+                        if (obj.key === 'orders.json') continue;
+                        var data = await env.DECAL_UPLOADS.get(obj.key);
+                        if (data) {
+                            var orderText = await data.text();
+                            var order = JSON.parse(orderText);
+                            if (order && !existingIds[order.sessionId]) {
+                                orders.push(order);
+                            }
+                        }
+                    }
+                }
+            } catch (_) {
+                // Old listing is best-effort; ignore errors
+            }
+
+            orders.sort(function(a, b) {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
         } catch (e) {
             fetchError = e.message || String(e);
         }
