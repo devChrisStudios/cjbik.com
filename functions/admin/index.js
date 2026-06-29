@@ -183,19 +183,11 @@ export async function onRequest(context) {
         var orders = [];
         var fetchError = null;
         try {
-            var list = await env.DECAL_UPLOADS.list({ prefix: 'orders/' });
-            if (!list.objects || !Array.isArray(list.objects)) {
-                fetchError = 'R2 list returned unexpected result';
-            } else {
-                for (var i = 0; i < list.objects.length; i++) {
-                    var obj = list.objects[i];
-                    var data = await env.DECAL_UPLOADS.get(obj.key);
-                    if (data) {
-                        var text = await data.text();
-                        var order = JSON.parse(text);
-                        orders.push(order);
-                    }
-                }
+            var data = await env.DECAL_UPLOADS.get('orders.json');
+            if (data) {
+                var text = await data.text();
+                orders = JSON.parse(text);
+                if (!Array.isArray(orders)) orders = [];
                 orders.sort(function(a, b) {
                     return new Date(b.createdAt) - new Date(a.createdAt);
                 });

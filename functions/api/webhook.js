@@ -32,8 +32,15 @@ export async function onRequest(context) {
             const shipping = session.shipping_details || {};
             const address = shipping.address || {};
 
-            const orderKey = 'orders/' + session.id + '.json';
-            const orderData = JSON.stringify({
+            var existingOrders = [];
+            var existingData = await context.env.DECAL_UPLOADS.get('orders.json');
+            if (existingData) {
+                var existingText = await existingData.text();
+                existingOrders = JSON.parse(existingText);
+                if (!Array.isArray(existingOrders)) existingOrders = [];
+            }
+
+            existingOrders.push({
                 sessionId: session.id,
                 customerEmail: customer.email || null,
                 customerName: customer.name || null,
@@ -53,7 +60,7 @@ export async function onRequest(context) {
                 items: items,
             });
 
-            await context.env.DECAL_UPLOADS.put(orderKey, orderData);
+            await context.env.DECAL_UPLOADS.put('orders.json', JSON.stringify(existingOrders));
         }
 
         return new Response(JSON.stringify({ received: true }));
